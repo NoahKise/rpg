@@ -48,7 +48,7 @@ export const attack = changeStateD20("attack");
 export const move = changeStateD20("move");
 export const interact = changeStateD20("interact");
 
-const characterMaker = function (inputName, inputClass, characterId) {
+export const characterMaker = function (inputName, inputClass, characterId) {
     const characterObj = {
         id: characterId,
         name: inputName,
@@ -59,6 +59,7 @@ const characterMaker = function (inputName, inputClass, characterId) {
 
 const unarmedStrike = function () {
     const obj = {
+        ability1: "Punch",
         punch: function (target) {
             target.health -= 5;
         }
@@ -68,6 +69,7 @@ const unarmedStrike = function () {
 
 const meditate = function () {
     const obj = {
+        ability2: "Focus",
         focus: function () {
             const focusAttack = {
                 superPunch: function (target) {
@@ -80,7 +82,7 @@ const meditate = function () {
     return obj;
 };
 
-const monk = function (player) {
+export const monk = function (player) {
     let state = player;
 
     return {...state, ...unarmedStrike(state), ...meditate(state)};
@@ -88,6 +90,7 @@ const monk = function (player) {
 
 const animateCorpse = function () {
     const obj = {
+        ability1: "Animate Corpse",
         animate: function () {
             const zombie = characterMaker("corpse", "zombie", 6);
             return zombie;
@@ -98,6 +101,7 @@ const animateCorpse = function () {
 
 const castCurse = function () {
     const obj = {
+        ability2: "Curse",
         curse: function (target) {
             return target.health -= 2;
         }
@@ -105,7 +109,7 @@ const castCurse = function () {
     return obj;
 };
 
-const necromancer = function(player) {
+export const necromancer = function(player) {
     let state = player;
 
     return {...state, ...animateCorpse(state), ...castCurse(state)};
@@ -113,6 +117,7 @@ const necromancer = function(player) {
 
 const intimidate = function () {
     const obj = {
+        ability1: "Beat Chest",
         beatChest: function (target) {
             return target.item1 = null;
         }
@@ -122,6 +127,7 @@ const intimidate = function () {
 
 const enrage = function(player) {
     const obj = {
+        ability2: "Become Frenzied",
         becomeFrenzied: function() {
             const frenziedGoon = {
                 ...player, 
@@ -134,7 +140,7 @@ const enrage = function(player) {
     return obj;
 };
 
-const goon = function(player) {
+export const goon = function(player) {
     let state = player;
 
     return {...state, ...intimidate(state), ...enrage(state)};
@@ -142,6 +148,7 @@ const goon = function(player) {
 
 const invokeTheOldGods = function(player) {
     const obj = {
+        ability1: "Invoke the Old Gods",
         bloodSacrifice: function(num) {
             const bloodedShaman = {
                 ...player,
@@ -159,6 +166,7 @@ const invokeTheOldGods = function(player) {
 
 const heal = function() {
     const obj = {
+        ability2: "Heal",
         restoreHealth: function(target) {
             const roll = Math.floor(Math.random() * 5);
             return target.health += roll;
@@ -167,7 +175,7 @@ const heal = function() {
     return obj;
 };
 
-const shaman = function(player) {
+export const shaman = function(player) {
     let state = player;
 
     return {...state, ...invokeTheOldGods(state), ...heal(state)};
@@ -175,6 +183,7 @@ const shaman = function(player) {
 
 const romance = function () {
     const obj = {
+        ability1: "Seduce",
         seduce: function (target) {
             target.armor - 2;
         }
@@ -184,6 +193,7 @@ const romance = function () {
 
 const jester = function () {
     const obj = {
+        ability2: "Charm",
         charm: function (player) {
             const charmingBard = {
                 ...player,
@@ -195,7 +205,7 @@ const jester = function () {
     return obj;
 };
 
-const bard = function (player) {
+export const bard = function (player) {
     let state = player ;
 
     return {...state, ...romance(state), ...jester(state)};
@@ -203,6 +213,7 @@ const bard = function (player) {
 
 const trap = function() {
     const obj = {
+        ability1: "Set Trap",
         setTrap: function(player, num) {
             if (player.moves === num) {
                 player.health -= 5;
@@ -214,6 +225,7 @@ const trap = function() {
 
 const rangedAttack = function() {
     const obj = {
+        ability2: "Shoot Arrow",
         shoot: function(target) {
             target.health -= 5;
         }
@@ -221,8 +233,30 @@ const rangedAttack = function() {
     return obj;
 };
 
-const outlaw = function (player) {
+export const outlaw = function (player) {
     let state = player ;
 
     return {...state, ...trap(state), ...rangedAttack(state)};
+};
+
+export const classCheck = function (inputClass) {
+    if (inputClass === "necromancer") {
+        const classedCharacter = necromancer(createdCharacter);
+        return classedCharacter;
+    } else if (inputClass === "monk") {
+        const classedCharacter = monk(createdCharacter);
+        return classedCharacter;
+    } else if (inputClass === "shaman") {
+        const classedCharacter = shaman(createdCharacter);
+        return classedCharacter;
+    } else if (inputClass === "goon") {
+        const classedCharacter = goon(createdCharacter);
+        return classedCharacter;
+    } else if (inputClass === "bard") {
+        const classedCharacter = bard(createdCharacter);
+        return classedCharacter;
+    } else {
+        const classedCharacter = outlaw(createdCharacter);
+        return classedCharacter;
+    }
 };
