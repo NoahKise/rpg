@@ -238,25 +238,3 @@ export const outlaw = function (player) {
 
     return {...state, ...trap(state), ...rangedAttack(state)};
 };
-
-export const classCheck = function (inputClass) {
-    if (inputClass === "necromancer") {
-        const classedCharacter = necromancer(createdCharacter);
-        return classedCharacter;
-    } else if (inputClass === "monk") {
-        const classedCharacter = monk(createdCharacter);
-        return classedCharacter;
-    } else if (inputClass === "shaman") {
-        const classedCharacter = shaman(createdCharacter);
-        return classedCharacter;
-    } else if (inputClass === "goon") {
-        const classedCharacter = goon(createdCharacter);
-        return classedCharacter;
-    } else if (inputClass === "bard") {
-        const classedCharacter = bard(createdCharacter);
-        return classedCharacter;
-    } else {
-        const classedCharacter = outlaw(createdCharacter);
-        return classedCharacter;
-    }
-};
