@@ -1,12 +1,14 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styles.css";
-import { stateControl, attack, move, interact, characterMaker, necromancer, monk, shaman, goon, bard, outlaw} from './rpg.js';
+import { stateControl, attack, move, interact, characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker} from './rpg.js';
 
 
 
 window.onload = function () {
-    let counter = 1;
+    let counter = 0;
+
+
     document.getElementById('newCharacter').onclick = function (e) {
         e.preventDefault();
 
@@ -40,11 +42,37 @@ window.onload = function () {
         };
 
         const classedCharacter = classCheck(createdCharacter.class);
-
+        const enemy = enemyMaker();
         console.log(classedCharacter);
+        console.log(enemy);
+
+        const newCharacterDiv = document.createElement("div");
+
+        const displayStats = () => {
+            const stats = document.createElement("ul");
+            const health = document.createElement("li");
+            const strength = document.createElement("li");
+            const intelligence = document.createElement("li");
+            const speed = document.createElement("li");
+            const stealth = document.createElement("li");
+            const charm = document.createElement("li");
+            const id = document.createElement("li");
+    
+            health.append(`Health: ${classedCharacter.health}`);
+            strength.append(`Strength: ${classedCharacter.strength}`);
+            intelligence.append(`Intelligence: ${classedCharacter.intelligence}`);
+            speed.append(`Speed: ${classedCharacter.speed}`);
+            stealth.append(`Stealth: ${classedCharacter.stealth}`);
+            charm.append(`Charm: ${classedCharacter.charm}`);
+            id.append(`ID: ${classedCharacter.id}`);
+            
+            
+            stats.append(health, strength, intelligence, speed, stealth, charm, id);
+            return stats;
+        
+        };
 
         const body = document.querySelector("body");
-        const newCharacterDiv = document.createElement("div");
         const name = document.createElement("h1");
         name.append(inputName);
         const playerClass = document.createElement("h2");
@@ -77,7 +105,11 @@ window.onload = function () {
         ability2Button.setAttribute("id", "ability2");
         ability2Button.innerText = `${classedCharacter.ability2}`;
         newCharacterDiv.setAttribute("class", "characterCard");
-        newCharacterDiv.append(name, playerClass, attackButton, h3Attack, moveButton, h3Move, interactButton, h3Interact, ability1Button, ability2Button);
+
+        
+
+
+        newCharacterDiv.append(name, playerClass, attackButton, h3Attack, moveButton, h3Move, interactButton, h3Interact, ability1Button, ability2Button, displayStats());
 
         body.append(newCharacterDiv);
 

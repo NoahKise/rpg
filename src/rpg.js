@@ -57,6 +57,14 @@ export const characterMaker = function (inputName, inputClass, characterId) {
     return characterObj;
 };
 
+export const enemyMaker = () => {
+    const random = Math.floor(Math.random() * 21) +20;
+    const enemyObj = {
+        health: random
+    };
+    return enemyObj;
+};
+
 const unarmedStrike = function () {
     const obj = {
         ability1: "Punch",
@@ -224,8 +232,8 @@ const romance = function () {
 
 const jester = function () {
     const obj = {
-        ability2: "Charm",
-        charm: function (player) {
+        ability2: "Curry favor",
+        curry_favor: function (player) {
             const charmingBard = {
                 ...player,
                 armor: player.armor + 2
