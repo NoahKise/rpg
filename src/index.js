@@ -2,6 +2,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styles.css";
 import { stateControl, attack, move, interact, characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker} from './rpg.js';
+import { getGif } from "./giphy";
 
 
 
@@ -9,7 +10,7 @@ window.onload = function () {
     let counter = 0;
 
 
-    document.getElementById('newCharacter').onclick = function (e) {
+    document.getElementById('newCharacter').onclick = async function (e) {
         e.preventDefault();
 
         const inputName = document.getElementById("characterName").value;
@@ -43,6 +44,7 @@ window.onload = function () {
 
         const classedCharacter = classCheck(createdCharacter.class);
         const enemy = enemyMaker();
+        const gif = await getGif();
         console.log(classedCharacter);
         console.log(enemy);
 
@@ -106,12 +108,19 @@ window.onload = function () {
         ability2Button.innerText = `${classedCharacter.ability2}`;
         newCharacterDiv.setAttribute("class", "characterCard");
 
+        newCharacterDiv.append(name, playerClass, attackButton, h3Attack, moveButton, h3Move, interactButton, h3Interact, ability1Button, ability2Button, displayStats(),);
+
+        const monsterGif = document.createElement("img");
+        monsterGif.setAttribute("src", gif);
+        const enemyDiv = document.createElement("div");
+        const enemyHealth = document.createElement("h2");
+        enemyHealth.append(`Health: ${enemy.health}`);
+        enemyDiv.setAttribute("class", "enemyCard");
+        enemyDiv.append(monsterGif, enemyHealth);
         
 
 
-        newCharacterDiv.append(name, playerClass, attackButton, h3Attack, moveButton, h3Move, interactButton, h3Interact, ability1Button, ability2Button, displayStats());
-
-        body.append(newCharacterDiv);
+        body.append(newCharacterDiv, enemyDiv);
 
         attackButton.onclick = function () {
             const newState = newCharacter(attack);
