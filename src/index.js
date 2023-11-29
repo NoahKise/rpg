@@ -45,8 +45,6 @@ window.onload = function () {
         const classedCharacter = classCheck(createdCharacter.class);
         const enemy = enemyMaker();
         const gif = await getGif();
-        console.log(classedCharacter);
-        console.log(enemy);
 
         const newCharacterDiv = document.createElement("div");
 
@@ -114,9 +112,12 @@ window.onload = function () {
         monsterGif.setAttribute("src", gif);
         const enemyDiv = document.createElement("div");
         const enemyHealth = document.createElement("h2");
+        const enemyRadio = document.createElement("input");
+        enemyRadio.setAttribute("type", "radio");
+        enemyRadio.setAttribute("name", "target");
         enemyHealth.append(`Health: ${enemy.health}`);
         enemyDiv.setAttribute("class", "enemyCard");
-        enemyDiv.append(monsterGif, enemyHealth);
+        enemyDiv.append(monsterGif, enemyHealth, enemyRadio);
         
 
 
