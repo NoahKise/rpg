@@ -83,8 +83,15 @@ const meditate = function () {
 };
 
 export const monk = function (player) {
-    let state = player;
-
+    let state = {
+        ...player,
+        health: 35,
+        strength: 30,
+        intelligence: 20,
+        speed: 35, 
+        stealth: 25,
+        charm: 10
+    };
     return {...state, ...unarmedStrike(state), ...meditate(state)};
 };
 
@@ -110,7 +117,15 @@ const castCurse = function () {
 };
 
 export const necromancer = function(player) {
-    let state = player;
+    let state = {
+        ...player,
+        health: 20,
+        strength: 15,
+        intelligence: 35,
+        speed: 25, 
+        stealth: 30,
+        charm: 10
+    };
 
     return {...state, ...animateCorpse(state), ...castCurse(state)};
 };
@@ -141,7 +156,15 @@ const enrage = function(player) {
 };
 
 export const goon = function(player) {
-    let state = player;
+    let state = {
+        ...player,
+        health: 40,
+        strength: 40,
+        intelligence: 5,
+        speed: 30, 
+        stealth: 5,
+        charm: 20
+    };
 
     return {...state, ...intimidate(state), ...enrage(state)};
 };
@@ -176,7 +199,15 @@ const heal = function() {
 };
 
 export const shaman = function(player) {
-    let state = player;
+    let state = {
+        ...player,
+        health: 35,
+        strength: 10,
+        intelligence: 30,
+        speed: 25, 
+        stealth: 20,
+        charm: 25
+    };
 
     return {...state, ...invokeTheOldGods(state), ...heal(state)};
 };
@@ -206,7 +237,15 @@ const jester = function () {
 };
 
 export const bard = function (player) {
-    let state = player ;
+    let state = {
+        ...player,
+        health: 30,
+        strength: 15,
+        intelligence: 20,
+        speed: 30, 
+        stealth: 30,
+        charm: 40
+    };
 
     return {...state, ...romance(state), ...jester(state)};
 };
@@ -234,7 +273,15 @@ const rangedAttack = function() {
 };
 
 export const outlaw = function (player) {
-    let state = player ;
+    let state = {
+        ...player,
+        health: 25,
+        strength: 25,
+        intelligence: 35,
+        speed: 35, 
+        stealth: 35,
+        charm: 30
+    };
 
     return {...state, ...trap(state), ...rangedAttack(state)};
 };

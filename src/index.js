@@ -17,7 +17,6 @@ window.onload = function () {
         counter++;
 
         const createdCharacter = characterMaker(inputName, inputClassType, counter);
-        console.log(createdCharacter.class);
         const classCheck = function (inputClass) {
             if (inputClass === "Necromancer") {
                 const classedCharacter = necromancer(createdCharacter);
@@ -41,6 +40,8 @@ window.onload = function () {
         };
 
         const classedCharacter = classCheck(createdCharacter.class);
+
+        console.log(classedCharacter);
 
         const body = document.querySelector("body");
         const newCharacterDiv = document.createElement("div");
@@ -100,6 +101,8 @@ window.onload = function () {
             // const newState = newCharacter(move);
             // divAbility2.innerText = `Ability 2: ${newState.move}`;
         };
+
+        
         
     };
 };
