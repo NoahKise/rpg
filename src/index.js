@@ -52,6 +52,7 @@ window.onload = function () {
         const gif = await getGif();
 
         const newCharacterDiv = document.createElement("div");
+        newCharacterDiv.setAttribute("id", `characterDiv${counter}`);
 
         const displayStats = (character) => {
             const stats = document.createElement("ul");
@@ -144,6 +145,11 @@ window.onload = function () {
                     element.actionTaken = 1;
                 });
                 actionCounter = 0;
+
+                if (attackedPlayer.health <= 0) {
+                    const selectedPlayerDiv = document.getElementById(`characterDiv${randomPlayer}`);
+                    selectedPlayerDiv.style.display = "none";
+                }
             }
             Object.keys(heroes).forEach(heroKey => {
                 const heroId = heroKey;
