@@ -1,7 +1,7 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styles.css";
-import { characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker} from './rpg.js';
+import { characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker } from './rpg.js';
 import { getGif } from "./giphy";
 
 
@@ -43,11 +43,11 @@ window.onload = function () {
                 return classedCharacter;
             }
         };
-        
+
         const heroId = `hero${counter}`;
         const classedCharacter = classCheck(createdCharacter.class);
         heroes[heroId] = classedCharacter;
-        
+
         const enemyId = `enemy${counter}`;
         const enemy = enemyMaker(enemyId);
         enemies[enemyId] = enemy;
@@ -64,7 +64,7 @@ window.onload = function () {
             const stealth = document.createElement("li");
             const charm = document.createElement("li");
             const id = document.createElement("li");
-    
+
             health.append(`Health: ${classedCharacter.health}`);
             strength.append(`Strength: ${classedCharacter.strength}`);
             intelligence.append(`Intelligence: ${classedCharacter.intelligence}`);
@@ -72,11 +72,11 @@ window.onload = function () {
             stealth.append(`Stealth: ${classedCharacter.stealth}`);
             charm.append(`Charm: ${classedCharacter.charm}`);
             id.append(`ID: ${classedCharacter.id}`);
-            
-            
+
+
             stats.append(health, strength, intelligence, speed, stealth, charm, id);
             return stats;
-        
+
         };
 
         const body = document.querySelector("body");
@@ -114,7 +114,14 @@ window.onload = function () {
         ability2Button.innerText = `${classedCharacter.ability2}`;
         newCharacterDiv.setAttribute("class", "characterCard");
 
-        newCharacterDiv.append(name, playerClass, attackButton, moveButton, interactButton, br, ability1Button, ability2Button, displayStats(),);
+        // const showMovesLeft = () => {
+        const actionsAvailable = document.createElement("h4");
+        actionsAvailable.setAttribute("id", `actions${heroId}`);
+        // actionsavailable = "";
+        actionsAvailable.append(`Actions Left: ${classedCharacter.actionTaken}`);
+        // }
+
+        newCharacterDiv.append(name, playerClass, attackButton, moveButton, interactButton, br, ability1Button, ability2Button, displayStats(), actionsAvailable);
 
         const monsterGif = document.createElement("img");
         monsterGif.setAttribute("src", gif);
@@ -128,26 +135,30 @@ window.onload = function () {
         enemyHealth.append(`Health: ${enemy.health}`);
         enemyDiv.setAttribute("class", "enemyCard");
         enemyDiv.append(monsterGif, enemyHealth, enemyRadio);
-        
+
 
 
         body.append(newCharacterDiv, enemyDiv);
 
         attackButton.onclick = function () {
             const enemyRadios = document.querySelectorAll(".enemyCard input[type='radio']");
-        
-            for (const radio of enemyRadios) {
-                if (radio.checked) {
-                    const enemyId = radio.value;
-                    const selectedEnemy = enemies[`enemy${enemyId}`];
-        
-                    if (selectedEnemy) {
-                        console.log(heroes);
-                        const attackingCharacter = heroes[heroId];
-                        selectedEnemy.health -= attackingCharacter.strength / 5;
-                        document.getElementById(`health${enemyId.charAt(enemyId.length - 1)}`).innerText = `Health: ${selectedEnemy.health}`;
+            const attackingCharacter = heroes[heroId];
+
+            if (attackingCharacter.actionTaken === 1) {
+
+                for (const radio of enemyRadios) {
+                    if (radio.checked) {
+                        const enemyId = radio.value;
+                        const selectedEnemy = enemies[`enemy${enemyId}`];
+
+                        if (selectedEnemy) {
+                            selectedEnemy.health -= attackingCharacter.strength / 5;
+                            document.getElementById(`health${enemyId.charAt(enemyId.length - 1)}`).innerText = `Health: ${selectedEnemy.health}`;
+                            attackingCharacter.actionTaken -= 1;
+                            document.getElementById(`actions${heroId}`).innerText = `Actions Left: ${attackingCharacter.actionTaken}`;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         };
@@ -168,8 +179,8 @@ window.onload = function () {
             // divAbility2.innerText = `Ability 2: ${newState.move}`;
         };
 
-        
-        
+
+
     };
 };
 

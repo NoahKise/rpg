@@ -52,7 +52,8 @@ export const characterMaker = function (inputName, inputClass, characterId) {
     const characterObj = {
         id: characterId,
         name: inputName,
-        class: inputClass
+        class: inputClass,
+        actionTaken: 1
     };
     return characterObj;
 };
