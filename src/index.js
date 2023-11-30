@@ -1,13 +1,14 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styles.css";
-import { stateControl, attack, move, interact, characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker} from './rpg.js';
+import { characterMaker, necromancer, monk, shaman, goon, bard, outlaw, enemyMaker} from './rpg.js';
 import { getGif } from "./giphy";
 
 
 
 window.onload = function () {
     let counter = 0;
+    const enemies = {};
 
 
     document.getElementById('newCharacter').onclick = async function (e) {
@@ -15,8 +16,8 @@ window.onload = function () {
 
         const inputName = document.getElementById("characterName").value;
         const inputClassType = document.querySelector("select#classTypes option:checked").textContent;
-        const characterId = `character${counter}`;
-        const newCharacter = stateControl(characterId);
+        // const characterId = `character${counter}`;
+        // const newCharacter = stateControl(characterId);
         counter++;
 
         const createdCharacter = characterMaker(inputName, inputClassType, counter);
@@ -43,7 +44,10 @@ window.onload = function () {
         };
 
         const classedCharacter = classCheck(createdCharacter.class);
-        const enemy = enemyMaker();
+        // const heroes = {};
+        const enemyId = `enemy${counter}`;
+        const enemy = enemyMaker(enemyId);
+        enemies[enemyId] = enemy;
         const gif = await getGif();
 
         const newCharacterDiv = document.createElement("div");
@@ -112,9 +116,11 @@ window.onload = function () {
         monsterGif.setAttribute("src", gif);
         const enemyDiv = document.createElement("div");
         const enemyHealth = document.createElement("h2");
+        enemyHealth.setAttribute("id", `health${enemyId.charAt(enemyId.length - 1)}`);
         const enemyRadio = document.createElement("input");
         enemyRadio.setAttribute("type", "radio");
         enemyRadio.setAttribute("name", "target");
+        enemyRadio.setAttribute("value", counter);
         enemyHealth.append(`Health: ${enemy.health}`);
         enemyDiv.setAttribute("class", "enemyCard");
         enemyDiv.append(monsterGif, enemyHealth, enemyRadio);
@@ -124,16 +130,28 @@ window.onload = function () {
         body.append(newCharacterDiv, enemyDiv);
 
         attackButton.onclick = function () {
-            const newState = newCharacter(attack);
-            divAttack.innerText = `Attack: ${newState.attack}`;
+            const enemyRadios = document.querySelectorAll(".enemyCard input[type='radio']");
+        
+            for (const radio of enemyRadios) {
+                if (radio.checked) {
+                    const enemyId = radio.value;
+                    const selectedEnemy = enemies[`enemy${enemyId}`];
+        
+                    if (selectedEnemy) {
+                        selectedEnemy.health -= 10;
+                        document.getElementById(`health${enemyId.charAt(enemyId.length - 1)}`).innerText = `Health: ${selectedEnemy.health}`;
+                    }
+                    break;
+                }
+            }
         };
         moveButton.onclick = function () {
-            const newState = newCharacter(move);
-            divMove.innerText = `Move: ${newState.move}`;
+            // const newState = newCharacter(move);
+            // divMove.innerText = `Move: ${newState.move}`;
         };
         interactButton.onclick = function () {
-            const newState = newCharacter(interact);
-            divInteract.innerText = `Interact: ${newState.interact}`;
+            // const newState = newCharacter(interact);
+            // divInteract.innerText = `Interact: ${newState.interact}`;
         };
         ability1Button.onclick = function () {
             // const newState = newCharacter(attack);
@@ -148,3 +166,5 @@ window.onload = function () {
         
     };
 };
+
+// stateControl, attack, move, interact, 

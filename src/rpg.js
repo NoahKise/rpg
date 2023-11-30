@@ -57,10 +57,11 @@ export const characterMaker = function (inputName, inputClass, characterId) {
     return characterObj;
 };
 
-export const enemyMaker = () => {
+export const enemyMaker = (idValue) => {
     const random = Math.floor(Math.random() * 21) +20;
     const enemyObj = {
-        health: random
+        health: random,
+        id: idValue
     };
     return enemyObj;
 };
