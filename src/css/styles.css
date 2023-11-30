@@ -14,11 +14,21 @@ body {
     margin-top: 10px;
     background-color: bisque;
     padding: 10px;
-    width: 45%;
+    width: 350px;
     height: fit-content;
     margin-left: 100px;
+    border: 3px solid black;
 }
 
+.characterCard button {
+    margin: 2px;
+}
+.characterCard h1 {
+    font-size: 36px;
+}
+.characterCard h2 {
+    font-size: 20px;
+}
 .enemyCard {
     margin-top: 10px;
     color: black;

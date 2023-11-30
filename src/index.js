@@ -9,6 +9,7 @@ import { getGif } from "./giphy";
 window.onload = function () {
     let counter = 0;
     const enemies = {};
+    const heroes = {};
 
 
     document.getElementById('newCharacter').onclick = async function (e) {
@@ -42,9 +43,11 @@ window.onload = function () {
                 return classedCharacter;
             }
         };
-
+        
+        const heroId = `hero${counter}`;
         const classedCharacter = classCheck(createdCharacter.class);
-        // const heroes = {};
+        heroes[heroId] = classedCharacter;
+        
         const enemyId = `enemy${counter}`;
         const enemy = enemyMaker(enemyId);
         enemies[enemyId] = enemy;
@@ -90,18 +93,19 @@ window.onload = function () {
         const interactButton = document.createElement("button");
         interactButton.setAttribute("id", "interact");
         interactButton.innerText = "Interact";
-        const h3Attack = document.createElement('h3');
-        const divAttack = document.createElement('div');
-        divAttack.setAttribute("id", "chosen-attack-value");
-        h3Attack.append(divAttack);
-        const h3Move = document.createElement('h3');
-        const divMove = document.createElement('div');
-        divMove.setAttribute("id", "chosen-move-value");
-        h3Move.append(divMove);
-        const h3Interact = document.createElement('h3');
-        const divInteract = document.createElement('div');
-        divInteract.setAttribute("id", "chosen-interact-value");
-        h3Interact.append(divInteract);
+        const br = document.createElement("br");
+        // const h3Attack = document.createElement('h3');
+        // const divAttack = document.createElement('div');
+        // divAttack.setAttribute("id", "chosen-attack-value");
+        // h3Attack.append(divAttack);
+        // const h3Move = document.createElement('h3');
+        // const divMove = document.createElement('div');
+        // divMove.setAttribute("id", "chosen-move-value");
+        // h3Move.append(divMove);
+        // const h3Interact = document.createElement('h3');
+        // const divInteract = document.createElement('div');
+        // divInteract.setAttribute("id", "chosen-interact-value");
+        // h3Interact.append(divInteract);
         const ability1Button = document.createElement("button");
         ability1Button.setAttribute("id", "ability1");
         ability1Button.innerText = `${classedCharacter.ability1}`;
@@ -110,7 +114,7 @@ window.onload = function () {
         ability2Button.innerText = `${classedCharacter.ability2}`;
         newCharacterDiv.setAttribute("class", "characterCard");
 
-        newCharacterDiv.append(name, playerClass, attackButton, h3Attack, moveButton, h3Move, interactButton, h3Interact, ability1Button, ability2Button, displayStats(),);
+        newCharacterDiv.append(name, playerClass, attackButton, moveButton, interactButton, br, ability1Button, ability2Button, displayStats(),);
 
         const monsterGif = document.createElement("img");
         monsterGif.setAttribute("src", gif);
@@ -138,7 +142,9 @@ window.onload = function () {
                     const selectedEnemy = enemies[`enemy${enemyId}`];
         
                     if (selectedEnemy) {
-                        selectedEnemy.health -= 10;
+                        console.log(heroes);
+                        const attackingCharacter = heroes[heroId];
+                        selectedEnemy.health -= attackingCharacter.strength / 5;
                         document.getElementById(`health${enemyId.charAt(enemyId.length - 1)}`).innerText = `Health: ${selectedEnemy.health}`;
                     }
                     break;
